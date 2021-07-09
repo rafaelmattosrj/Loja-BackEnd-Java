@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Endereco implements Serializable {	
 	private static final long serialVersionUID = 1L;
@@ -22,6 +24,9 @@ public class Endereco implements Serializable {
 	private String bairro;
 	private String cep;
 
+	//Do outro lado da associação, já foram buscado os objetos, então agora não busque mais.
+	// Vai omitir a lista de categorias, para cada produto.
+	@JsonBackReference
 	// muitas cidades para 1 estado
 	@ManyToOne
 	// fazer a relação no banco de dados da chave estrangeira
