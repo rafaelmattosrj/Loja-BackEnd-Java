@@ -1,15 +1,16 @@
 package br.com.rafaelmattos.cursomc.domain.enums;
 
 //Implementação do Enum (somente o get, sem set)
-public enum TipoCliente {
+public enum EstadoPagamento {
 
-	PESSOAFISICA(1, "Pessoa Física"), 
-	PESSOAJURIDICA(2, "Pessoa Jurídica");
+	PENDENTE(1, "Pendente"), 
+	QUITADO(2, "Quitado"),
+	CANCELADO(3, "Cancelado");
 
 	private int cod;
 	private String descricao;
 
-	private TipoCliente(int cod, String descricao) {
+	private EstadoPagamento(int cod, String descricao) {
 		this.cod = cod;
 		this.descricao = descricao;
 	}
@@ -24,13 +25,13 @@ public enum TipoCliente {
 
 	// static -> possivel de ser executada mesmo sem instanciar objetos
 	// converte para enum passando cod como parametro
-	public static TipoCliente toEnum(Integer cod) {
-		// o inteiro nulo corresponde ao tipoCliente nulo tb
+	public static EstadoPagamento toEnum(Integer cod) {
+		// o inteiro nulo corresponde ao estadoPagamento nulo tb
 		if (cod == null) {
 			return null;
 		}
-		// todo objeto x nos valores possiveis no tipoCliente
-		for (TipoCliente x : TipoCliente.values()) {
+		// todo objeto x nos valores possiveis no estadoPagamento
+		for (EstadoPagamento x : EstadoPagamento.values()) {
 			// se o codigo que veio como argumento for igual ao x.getcod o codigo que estou
 			// procurando,
 			// vou retornar x
