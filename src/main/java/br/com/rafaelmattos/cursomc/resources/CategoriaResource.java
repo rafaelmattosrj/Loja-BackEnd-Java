@@ -21,7 +21,8 @@ public class CategoriaResource {
 	// ResponseEntity -> Encapsula varias informações de uma resposta de HTTP para
 	// um serviço REST.
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Categoria obj = service.buscar(id);
-		return ResponseEntity.ok().body(obj);
+		
+			Categoria obj = service.buscar(id);
+			return ResponseEntity.ok().body(obj);
 	}
 }

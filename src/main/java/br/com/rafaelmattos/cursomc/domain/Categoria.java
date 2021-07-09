@@ -19,10 +19,10 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 	
-	//Associações (inicie as coleções).
-	//Uma categoria tem varios produtos.
-	//mapeado em cima do atributo categorias
+	//mapeado em cima do atributo categorias.
 	@ManyToMany(mappedBy = "categorias")
+	//Uma categoria tem varios produtos.
+	//Associações (inicie as coleções).
 	private List<Produto> produtos = new ArrayList<>();
 
 	//Construtor vazio -> Instancio o objeto sem jogar nada para os atributos.
