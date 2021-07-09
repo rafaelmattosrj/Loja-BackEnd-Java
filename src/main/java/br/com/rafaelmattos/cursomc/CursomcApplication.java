@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.rafaelmattos.cursomc.domain.Categoria;
 import br.com.rafaelmattos.cursomc.domain.Cidade;
+import br.com.rafaelmattos.cursomc.domain.Cliente;
+import br.com.rafaelmattos.cursomc.domain.Endereco;
 import br.com.rafaelmattos.cursomc.domain.Estado;
 import br.com.rafaelmattos.cursomc.domain.Produto;
+import br.com.rafaelmattos.cursomc.domain.enums.TipoCliente;
 import br.com.rafaelmattos.cursomc.repositories.CategoriaRepository;
 import br.com.rafaelmattos.cursomc.repositories.CidadeRepository;
+import br.com.rafaelmattos.cursomc.repositories.ClienteRepository;
+import br.com.rafaelmattos.cursomc.repositories.EnderecoRepository;
 import br.com.rafaelmattos.cursomc.repositories.EstadoRepository;
 import br.com.rafaelmattos.cursomc.repositories.ProdutoRepository;
 
@@ -31,6 +36,12 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -94,6 +105,22 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Cliente cli2 = new Cliente(null, "Joao Costa", "joao@gmail.com", "31628382740", TipoCliente.PESSOAFISICA);
+		cli2.getTelefones().addAll(Arrays.asList("93883321", "34252625"));
+
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		Endereco e3 = new Endereco(null, "Avenida Floriano", "2106", null, "Centro", "281777012", cli2, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 
 	}
 
