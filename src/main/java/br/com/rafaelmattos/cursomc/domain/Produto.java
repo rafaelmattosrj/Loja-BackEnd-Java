@@ -43,7 +43,7 @@ public class Produto implements Serializable {
 
 	//Construtores -> Povoar os dados acima com o construtor.
 	public Produto(Integer id, String nome, Double preco) { 
-//Não coloca o que for coleção. A categoria já foi iniciada, não entra no construtor.
+//Não coloca o que for lista. A categoria já foi iniciada, não entra no construtor.
 		super();
 		this.id = id;
 		this.nome = nome;
