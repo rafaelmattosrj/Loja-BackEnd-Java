@@ -2,7 +2,9 @@ package br.com.rafaelmattos.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -34,8 +37,13 @@ public class Produto implements Serializable {
 			joinColumns = @JoinColumn(name = "produto_id"),
 			inverseJoinColumns = @JoinColumn(name = "categoria_id")
 	)
+	
 	//Um produto tem uma ou mais categorias.
 	private List<Categoria> categorias = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "id.produto")
+	//Set para garantir q nao vai ter item repetido no msm pedido
+	private Set<ItemPedido> itens = new HashSet<>();
 	
 	//Construtor vazio -> Instancio o objeto sem jogar nada para os atributos.
 	public Produto() {
@@ -50,6 +58,18 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
+	//o produto conhece os pedidos dele
+	//necessario criar um get pedidos, varrendo os itens de pedido, montando uma lista de pedidos associados a esse item.
+	public List<Pedido> getPedido() {
+		List<Pedido> lista = new ArrayList<>();
+		//Percorrer todos os ItemPedido na lista de itens. Para cada pedido q existir na lista de itens...
+		for (ItemPedido x : itens) {
+			//...vai adicionar o pedido associado a ele na lista
+			lista.add(x.getPedido());
+		}
+		return lista;
+	}
+	
 	//Getters e setters -> Metodos de acesso para os atributos
 	public Integer getId() {
 		return id;
@@ -83,6 +103,14 @@ public class Produto implements Serializable {
 		this.categorias = categorias;
 	}
 
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
 	//HashCode (id) -> gera um codigo numerico para cada objeto.
 	@Override
 	public int hashCode() {
@@ -109,4 +137,5 @@ public class Produto implements Serializable {
 			return false;
 		return true;
 	}
+
 }
