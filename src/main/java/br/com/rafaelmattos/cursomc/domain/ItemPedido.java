@@ -5,10 +5,13 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	//EmbeddedId é um id embutido em um tipo auxiliar
 	@EmbeddedId
 	//o id é um atributo composto
@@ -31,6 +34,7 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 
+	@JsonIgnore
 	//acesso direto ao pedido e produto fora da classe itempedido
 	public Pedido getPedido() {
 		return id.getPedido();
