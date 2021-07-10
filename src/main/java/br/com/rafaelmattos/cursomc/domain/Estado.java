@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Estado implements Serializable {
@@ -23,7 +23,7 @@ public class Estado implements Serializable {
 
 	//Do outro lado da associação, já foram buscado os objetos, então agora não busque mais.
 	// Vai omitir a lista de categorias, para cada produto.
-	@JsonBackReference
+	@JsonIgnore
 	//Estado tem varias cidades, mapeamento reverso, atributo q mapeou na outra classe.
 	@OneToMany(mappedBy = "estado")
 	private List<Cidade> cidades = new ArrayList<>();

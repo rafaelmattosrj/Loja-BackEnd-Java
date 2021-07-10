@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -30,7 +29,7 @@ public class Produto implements Serializable {
 
 	//Do outro lado da associação, já foram buscado os objetos, então agora não busque mais.
 	// Vai omitir a lista de categorias, para cada produto.
-	@JsonBackReference
+	@JsonIgnore
 	//Qdo tiver duas listas de cada lado(colocar em um dos dois lados).
 	@ManyToMany
 	//Quem vai ser a tabela q vai fazer muitos para muitos no banco relacional.

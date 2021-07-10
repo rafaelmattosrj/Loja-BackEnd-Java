@@ -14,8 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.rafaelmattos.cursomc.domain.enums.TipoCliente;
 
@@ -33,7 +32,7 @@ public class Cliente implements Serializable {
 	private Integer tipo;
 
 	//É o lado que vem os objetos associados.
-	@JsonManagedReference
+	//@JsonManagedReference
 	// Cliente tem varios endereços, mapeamento reverso, atributo q mapeou na outra
 	// classe.
 	@OneToMany(mappedBy = "cliente")
@@ -45,7 +44,7 @@ public class Cliente implements Serializable {
 	//Set é um conjunto que não permite repetição
 	private Set<String> telefones = new HashSet<>();
 	
-	@JsonBackReference
+	@JsonIgnore
 	//mapeado pelo cliente
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();

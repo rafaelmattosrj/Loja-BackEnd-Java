@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Endereco implements Serializable {	
@@ -26,7 +26,7 @@ public class Endereco implements Serializable {
 
 	//Do outro lado da associação, já foram buscado os objetos, então agora não busque mais.
 	// Vai omitir a lista de categorias, para cada produto.
-	@JsonBackReference
+	@JsonIgnore
 	// muitas cidades para 1 estado
 	@ManyToOne
 	// fazer a relação no banco de dados da chave estrangeira
