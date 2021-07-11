@@ -15,15 +15,23 @@ public class CategoriaService {
 	@Autowired // instanciar o repositorio
 	private CategoriaRepository repo;
 
-	public Categoria buscar(Integer id) {
+	// buscar no banco de dados com base no id
+	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
 		//Um função que estância uma exceção (utilizou uma expressão lambda)
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 	
+	// Inserir
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
+		return repo.save(obj);
+	}
+	
+	// Atualizar
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
 		return repo.save(obj);
 	}
 	

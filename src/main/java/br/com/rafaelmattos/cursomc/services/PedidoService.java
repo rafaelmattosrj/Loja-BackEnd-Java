@@ -15,7 +15,7 @@ public class PedidoService {
 	@Autowired // instanciar o repositorio
 	private PedidoRepository repo;
 
-	public Pedido buscar(Integer id) {
+	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		//Um função que estância uma exceção (utilizou uma expressão lambda)
 		return obj.orElseThrow(() -> new ObjectNotFoundException(

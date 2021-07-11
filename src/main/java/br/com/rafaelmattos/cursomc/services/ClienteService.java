@@ -15,7 +15,7 @@ public class ClienteService {
 	@Autowired // instanciar o repositorio
 	private ClienteRepository repo;
 
-	public Cliente buscar(Integer id) {
+	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);
 		//Um função que estância uma exceção (utilizou uma expressão lambda)
 		return obj.orElseThrow(() -> new ObjectNotFoundException(

@@ -20,9 +20,9 @@ public class PedidoResource {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	// ResponseEntity -> Encapsula varias informações de uma resposta de HTTP para
 	// um serviço REST.
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		
-			Pedido obj = service.buscar(id);
+			Pedido obj = service.find(id);
 			return ResponseEntity.ok().body(obj);
 	}
 }
