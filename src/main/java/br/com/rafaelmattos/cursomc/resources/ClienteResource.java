@@ -1,5 +1,6 @@
 package br.com.rafaelmattos.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.rafaelmattos.cursomc.domain.Cliente;
 import br.com.rafaelmattos.cursomc.dto.ClienteDTO;
+import br.com.rafaelmattos.cursomc.dto.ClienteNewDTO;
 import br.com.rafaelmattos.cursomc.services.ClienteService;
 
 @RestController
@@ -33,6 +36,17 @@ public class ClienteResource {
 		
 			Cliente obj = service.find(id);
 			return ResponseEntity.ok().body(obj);
+	}
+	
+	//Insere categoria //2
+	@RequestMapping(method = RequestMethod.POST)
+	//@Valid para validação //@Request Body, ou corpo da requisição, é onde geralmente enviamos dados que queremos gravar no servidor
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+		Cliente obj = service.fromDTO(objDto);
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	//Atualiza categoria //3
