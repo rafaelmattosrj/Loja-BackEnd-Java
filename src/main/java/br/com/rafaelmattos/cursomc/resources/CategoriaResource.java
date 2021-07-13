@@ -1,6 +1,8 @@
 package br.com.rafaelmattos.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.rafaelmattos.cursomc.domain.Categoria;
+import br.com.rafaelmattos.cursomc.dto.CategoriaDTO;
 import br.com.rafaelmattos.cursomc.services.CategoriaService;
 
 @RestController
@@ -21,7 +24,7 @@ public class CategoriaResource {
 	@Autowired // instanciar o serviço.
 	private CategoriaService service;
 
-	//Buscar no banco de dados com base no id
+	//Buscar no banco de dados com base no id //1
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	// ResponseEntity -> Encapsula varias informações de uma resposta de HTTP para
 	// um serviço REST.
@@ -31,7 +34,7 @@ public class CategoriaResource {
 			return ResponseEntity.ok().body(obj);
 	}
 	
-	//Insere categoria
+	//Insere categoria //2
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
 		obj = service.insert(obj);
@@ -40,7 +43,7 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	//Atualiza categoria
+	//Atualiza categoria //3
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Categoria> update(@RequestBody Categoria obj, @PathVariable Integer id) {
 		obj.setId(id);
@@ -48,11 +51,19 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	//Remove categoria
+	//Remove categoria //4
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
+	//Buscar uma lista de Categorias //5
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+			//converter Categoria em CategoriaDto
+			List<Categoria> list = service.findAll();
+			List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+			return ResponseEntity.ok().body(listDto);
+	}
 }
