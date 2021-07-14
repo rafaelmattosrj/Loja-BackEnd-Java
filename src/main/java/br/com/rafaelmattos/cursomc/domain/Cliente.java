@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -31,13 +32,17 @@ public class Cliente implements Serializable {
 	//armazenar como numero inteiro
 	private Integer tipo;
 
+	
+	
 	//É o lado que vem os objetos associados.
 	//@JsonManagedReference
-	// Cliente tem varios endereços, mapeamento reverso, atributo q mapeou na outra
-	// classe.
-	@OneToMany(mappedBy = "cliente")
+	// Cliente tem varios endereços, mapeamento reverso, atributo q mapeou na outra classe.
+	//cascade = CascadeType.ALL -> toda operação que modificar um cliente, eu vou poder refletir isso em cascata nos endereços.
+	// apaga o proximo automaticamente.
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 
+	
 	//Mapeamento dos telefones (ElementCollection)
 	@ElementCollection
 	@CollectionTable(name="TELEFONE")
