@@ -19,7 +19,7 @@ public class ClienteDTO implements Serializable {
 	private String nome;
 	
 	@NotEmpty(message="Preenchimento obrigatório")
-	@Email(message="E-mail inválido")
+	@Email(message="Email inválido")
 	private String email;
 //nao inclui o cpf pq nao muda
 	

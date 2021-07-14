@@ -7,24 +7,31 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-//@ClienteInsert
+import br.com.rafaelmattos.cursomc.services.validation.ClienteInsert;
+
+
 //Checklist:
 // Criar a anotação customizada
 // Criar o Valitator personalizado para esta anotação e para o nosso DTO
 // Programar o Validator, fazendo testes e inserindo as mensagens de erro
 // Anotar nosso DTO com a nova anotação criada
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {	
 	private static final long serialVersionUID = 1L;
 
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Length(min=5, max=120, message="O tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
+	
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Email(message="Email inválido")
 	private String email;
 
+	//@CPF -> se fosse para validar so o cpf ou @CNPJ
+	//CPF ou CNPJ vai depender do tipo
 	@NotEmpty(message="Preenchimento obrigatório")
 	private String cpfOuCnpj;
+	
 	private Integer tipo;
 	
 //	@NotEmpty(message="Preenchimento obrigatório")
