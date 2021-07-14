@@ -15,6 +15,8 @@ import br.com.rafaelmattos.cursomc.services.validation.ClienteInsert;
 // Criar o Valitator personalizado para esta anotação e para o nosso DTO
 // Programar o Validator, fazendo testes e inserindo as mensagens de erro
 // Anotar nosso DTO com a nova anotação criada
+
+//Faz a verificação do cliente na hora de inserir
 @ClienteInsert
 public class ClienteNewDTO implements Serializable {	
 	private static final long serialVersionUID = 1L;
