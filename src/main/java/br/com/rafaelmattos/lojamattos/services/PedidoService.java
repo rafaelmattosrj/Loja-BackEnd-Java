@@ -41,6 +41,7 @@ public class PedidoService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
 	
+	//metodo para inserir um pedido
 	@Transactional
 	public Pedido insert(Pedido obj) {
 		//setar o id para nulo, para garantir q é um novo pedido
