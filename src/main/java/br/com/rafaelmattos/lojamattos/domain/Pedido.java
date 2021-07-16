@@ -20,40 +20,42 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	//formatar
-	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+
+	// formatar
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
-	
-	//@JsonManagedReference
-	//cascade para evitar erro transiente qdo for salvar um pedido e o pagamento.
-	//mapear um para um de forma bidirecional
-	//id do pagamento será o msm id do pedido correspondente
+
+	// @JsonManagedReference
+	// cascade para evitar erro transiente qdo for salvar um pedido e o pagamento.
+	// mapear um para um de forma bidirecional
+	// id do pagamento será o msm id do pedido correspondente
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
-	
-	//@JsonManagedReference
+
+	// @JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
-	
-	//qm mapeou
+
+	// qm mapeou
 	@OneToMany(mappedBy = "id.pedido")
-	//Set para garantir q nao vai ter item repetido no msm pedido
+	// Set para garantir q nao vai ter item repetido no msm pedido
 	private Set<ItemPedido> itens = new HashSet<>();
 
 	public Pedido() {
 	}
-	//Instanciar primeiro o pedido e depois o pagamento... adaptando...
-	//Tirar o "Pagamento pagamento" na hora de instanciar. Recebe os outros dados, e não pagamento.
+
+	// Instanciar primeiro o pedido e depois o pagamento... adaptando...
+	// Tirar o "Pagamento pagamento" na hora de instanciar. Recebe os outros dados,
+	// e não pagamento.
 	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
@@ -62,6 +64,16 @@ public class Pedido implements Serializable {
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 
+	public double getValorTotal() {
+		double soma = 0.0;
+		//para cada ItemPedido na minha lista de itens
+		for (ItemPedido ip : itens) {
+			//eu vou acumular a soma desse item
+		soma = soma + ip.getSubTotal();
+		}
+	return soma;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -105,10 +117,10 @@ public class Pedido implements Serializable {
 	public Set<ItemPedido> getItens() {
 		return itens;
 	}
+
 	public void setItens(Set<ItemPedido> itens) {
 		this.itens = itens;
 	}
-	
 
 	@Override
 	public int hashCode() {
@@ -134,5 +146,5 @@ public class Pedido implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

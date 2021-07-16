@@ -34,6 +34,12 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 
+	//Calcular o subtotal
+	public double getSubTotal() {
+		return (preco - desconto) * quantidade;
+	}
+	
+	
 	@JsonIgnore
 	//acesso direto ao pedido e produto fora da classe itempedido
 	public Pedido getPedido() {
