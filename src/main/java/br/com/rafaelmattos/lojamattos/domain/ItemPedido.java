@@ -46,9 +46,19 @@ public class ItemPedido implements Serializable {
 		return id.getPedido();
 	}
 	
+	//Para que eu possa instanciar um novo itempedido e associar um pedido e um produto a esse itempedido, tem q por set pedido e set produto.
+	public void setPedido(Pedido pedido) {
+		id.setPedido(pedido);
+	}
+	
 	public Produto getProduto() {
 		return id.getProduto();
 	}
+	
+	public void setProduto(Produto produto) {
+		id.setProduto(produto);
+	}
+	
 	//
 	public ItemPedidoPK getId() {
 		return id;

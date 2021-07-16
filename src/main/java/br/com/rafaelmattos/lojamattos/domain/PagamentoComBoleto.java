@@ -5,12 +5,15 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import br.com.rafaelmattos.lojamattos.domain.enums.EstadoPagamento;
 
 //Extends subclasse do pagamento
 //Subclasse não precisa de hashcode and equals
 @Entity
+//campo adicional para o JSON
+@JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
 	//Subclasse não precisa implements Serializable {
 	private static final long serialVersionUID = 1L;

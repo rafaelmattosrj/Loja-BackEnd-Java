@@ -16,6 +16,7 @@ import br.com.rafaelmattos.lojamattos.domain.Produto;
 //herdar a classe por JpaRepository, atributo identificador
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
+	// https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
 	//Busca JPQL por ser consulta diferenciada
 	//http://localhost:8080/produtos/?nome=or&categorias=1,4
 	//@Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat WHERE obj.nome LIKE %:nome% AND cat IN :categorias")

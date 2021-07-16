@@ -64,6 +64,7 @@ public class Pedido implements Serializable {
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 
+	//Valor total do pedido
 	public double getValorTotal() {
 		double soma = 0.0;
 		//para cada ItemPedido na minha lista de itens

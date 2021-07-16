@@ -2,11 +2,15 @@ package br.com.rafaelmattos.lojamattos.domain;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import br.com.rafaelmattos.lojamattos.domain.enums.EstadoPagamento;
 
 //Extends subclasse do pagamento
 //Subclasse não precisa de hashcode and equals
 @Entity
+//campo adicional para o JSON
+@JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento {
 	//Subclasse não precisa implements Serializable {
 	private static final long serialVersionUID = 1L;

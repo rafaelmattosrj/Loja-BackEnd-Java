@@ -11,9 +11,12 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.com.rafaelmattos.lojamattos.domain.enums.EstadoPagamento;
 
+//Na superclasse abstrata terá um campo adicional @type para o JSON
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @Entity
 //Superclasse usa @Inheritance para mapear q herança das suas subclasses no banco de dados
 @Inheritance(strategy = InheritanceType.JOINED)
