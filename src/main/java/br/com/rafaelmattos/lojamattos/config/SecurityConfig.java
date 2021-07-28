@@ -36,10 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/h2-console/**"
 	};
 	
-	//caminho para recuperar os dados
+	//caminho para obter os dados
 	private static final String[] PUBLIC_MATCHERS_GET = { 
 			"/produtos/**",
-			"/categorias/**"
+			"/categorias/**",
+			"/clientes/**"
 	};
 //	
 //	private static final String[] PUBLIC_MATCHERS_POST = {

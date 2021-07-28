@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.rafaelmattos.lojamattos.domain.enums.Perfil;
 import br.com.rafaelmattos.lojamattos.domain.enums.TipoCliente;
 
 @Entity
@@ -48,12 +51,17 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 
-	
 	//Mapeamento dos telefones (ElementCollection)
 	@ElementCollection
 	@CollectionTable(name="TELEFONE")
 	//Set é um conjunto que não permite repetição
 	private Set<String> telefones = new HashSet<>();
+	
+	//Garantir que ao buscar os clientes no BD, buscar os perfis tb
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PERFIS")
+	//Set é um conjunto que não permite repetição
+	private Set<Integer> perfis = new HashSet<>();
 	
 	@JsonIgnore
 	//mapeado pelo cliente
@@ -61,6 +69,8 @@ public class Cliente implements Serializable {
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Cliente() {
+		//todo mundo por padrão terá perfil de cliente
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	// facilitar a instanciação de objetos numa linha só 
@@ -74,6 +84,7 @@ public class Cliente implements Serializable {
 		//se o tipo for igual a nulo eu vou atribuir nulo para esse campo, caso acontrario, atribui o codigo
 		this.tipo = (tipo==null) ? null : tipo.getCod(); //acrescentar .getCod()
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public Integer getId() {
@@ -122,6 +133,17 @@ public class Cliente implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	//é do tipo enumerado
+	public Set<Perfil> getPerfis() {
+		//Lambda -> percorrer essa coleção convertendo todo mundo para o tipo enumerado perfil
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	//ir na coleção perfis para adicionar o codigo dele
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
 	}
 	
 	public List<Endereco> getEnderecos() {
