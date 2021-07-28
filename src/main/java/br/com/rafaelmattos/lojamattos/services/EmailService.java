@@ -1,5 +1,7 @@
 package br.com.rafaelmattos.lojamattos.services;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.mail.SimpleMailMessage;
 
 import br.com.rafaelmattos.lojamattos.domain.Pedido;
@@ -15,8 +17,11 @@ import br.com.rafaelmattos.lojamattos.domain.Pedido;
 // Em TestConfig, criar um método @Bean EmailService que retorna uma instância de MockEmailService
 public interface EmailService {
 
+	//versão texto plano
 	void sendOrderConfirmationEmail(Pedido obj);
-
 	void sendEmail(SimpleMailMessage msg);
-
+//
+	//versão html
+	void sendOrderConfirmationHtmlEmail(Pedido obj);	
+	void sendHtmlEmail(MimeMessage msg);
 }
