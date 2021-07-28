@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 
-//envio do email de mentira
+//envio do email de mentira para testes
 public class MockEmailService extends AbstractEmailService {
 
 	//mostrar o email no logger do servidor. static para ter um so para todo mundo, nao criar outro.
