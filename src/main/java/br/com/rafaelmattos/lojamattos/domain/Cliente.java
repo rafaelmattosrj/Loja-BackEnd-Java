@@ -36,7 +36,9 @@ public class Cliente implements Serializable {
 	//armazenar como numero inteiro
 	private Integer tipo;
 
-	
+	//para nao aparecer no bcrpt da senha
+	@JsonIgnore
+	private String senha;
 	
 	//É o lado que vem os objetos associados.
 	//@JsonManagedReference
@@ -61,7 +63,8 @@ public class Cliente implements Serializable {
 	public Cliente() {
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	// facilitar a instanciação de objetos numa linha só 
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
 		super();
 		// Não coloca o que for lista ou coleção.
 		this.id = id;
@@ -70,6 +73,7 @@ public class Cliente implements Serializable {
 		this.cpfOuCnpj = cpfOuCnpj;
 		//se o tipo for igual a nulo eu vou atribuir nulo para esse campo, caso acontrario, atribui o codigo
 		this.tipo = (tipo==null) ? null : tipo.getCod(); //acrescentar .getCod()
+		this.senha = senha;
 	}
 
 	public Integer getId() {
@@ -112,6 +116,14 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCod(); //acrescentar .getCod()
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
