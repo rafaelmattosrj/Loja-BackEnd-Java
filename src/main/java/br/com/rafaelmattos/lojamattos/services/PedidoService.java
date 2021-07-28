@@ -33,6 +33,9 @@ public class PedidoService {
 	
 	@Autowired // instanciar o repositorio
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired // instanciar o repositorio
+	private ClienteService clienteService;
 
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -48,6 +51,8 @@ public class PedidoService {
 		obj.setId(null);
 		//criar nova data com instante atual
 		obj.setInstante(new Date());
+		//vai usar o id para buscar no banco de dados o cliente, setando o cliente associado ao obj.
+		obj.setCliente(clienteService.find(obj.getCliente().getId()));
 		//estado do pagamento qdo insere
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		//associação de mao dupla, o pagmaento tem q conhecer o pedido dele
@@ -66,13 +71,16 @@ public class PedidoService {
 		//pecorrer todos os itempedido associados ao obj.getitens
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
+			//setar o produto
+			ip.setProduto(produtoService.find(ip.getProduto().getId()));
 			//o preco tem q copiar do produto, vai ter q buscar no banco de dados
-			ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+			ip.setPreco(ip.getProduto().getPreco());
 			//associar item de pedido com obj
 			ip.setPedido(obj);
 		}
 		//salvar itempedido
 		itemPedidoRepository.saveAll(obj.getItens());
+		System.out.println(obj);
 		return obj;
 	}
 	
