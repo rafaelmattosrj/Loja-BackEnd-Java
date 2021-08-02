@@ -25,6 +25,7 @@ import br.com.rafaelmattos.lojamattos.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
+//travar as liberações
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
