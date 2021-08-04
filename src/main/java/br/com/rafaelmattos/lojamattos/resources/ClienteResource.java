@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +59,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	//Remove categoria //4
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -65,6 +67,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	//Buscar uma lista de Clientes //5
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> findAll() {
@@ -74,6 +77,7 @@ public class ClienteResource {
 			return ResponseEntity.ok().body(listDto);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	//Clientes/page?page=01&linesPerPage=20...
 	//Retorna todas Clientes com paginação //6
 	@RequestMapping(value="/page", method=RequestMethod.GET)

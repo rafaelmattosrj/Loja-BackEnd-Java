@@ -46,14 +46,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	//caminho para obter os dados
 	private static final String[] PUBLIC_MATCHERS_GET = { 
 			"/produtos/**",
-			"/categorias/**",
-			"/clientes/**"
+			"/categorias/**"
 	};
-//	
-//	private static final String[] PUBLIC_MATCHERS_POST = {
-//			"/clientes/**",
+	
+	private static final String[] PUBLIC_MATCHERS_POST = {
+			"/clientes/**"
 //			"/auth/forgot/**"
-//	};
+	};
 	
 //	@Override
 //	public void configure(WebSecurity web) throws Exception {
@@ -75,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//abrir permissão
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
-//			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
 		
 		//todos que tiverem nesse vetor, irá permitir
 			.antMatchers(PUBLIC_MARCHERS).permitAll()
