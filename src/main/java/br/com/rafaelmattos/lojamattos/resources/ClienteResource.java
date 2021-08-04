@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.rafaelmattos.lojamattos.domain.Cliente;
@@ -32,26 +33,27 @@ public class ClienteResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	// ResponseEntity -> Encapsula varias informações de uma resposta de HTTP para
-	// um serviço REST. Cliente retorna todas as informações. O DTO limita as informações.
+	// um serviço REST. Cliente retorna todas as informações. O DTO limita as
+	// informações.
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
-		
-			Cliente obj = service.find(id);
-			return ResponseEntity.ok().body(obj);
+
+		Cliente obj = service.find(id);
+		return ResponseEntity.ok().body(obj);
 	}
-	
-	//Insere categoria //2
+
+	// Insere categoria //2
 	@RequestMapping(method = RequestMethod.POST)
-	//@Valid para validação //@Request Body, ou corpo da requisição, é onde geralmente enviamos dados que queremos gravar no servidor
+	// @Valid para validação //@Request Body, ou corpo da requisição, é onde
+	// geralmente enviamos dados que queremos gravar no servidor
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
 		Cliente obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
-	//Atualiza categoria //3
-	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+
+	// Atualiza categoria //3
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Cliente> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
 		Cliente obj = service.fromDTO(objDto);
 		obj.setId(id);
@@ -60,36 +62,41 @@ public class ClienteResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	//Remove categoria //4
-	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+	// Remove categoria //4
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	//Buscar uma lista de Clientes //5
+	// Buscar uma lista de Clientes //5
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> findAll() {
-			//converter Cliente em ClienteDto
-			List<Cliente> list = service.findAll();
-			List<ClienteDTO> listDto = list.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
-			return ResponseEntity.ok().body(listDto);
+		// converter Cliente em ClienteDto
+		List<Cliente> list = service.findAll();
+		List<ClienteDTO> listDto = list.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	//Clientes/page?page=01&linesPerPage=20...
-	//Retorna todas Clientes com paginação //6
-	@RequestMapping(value="/page", method=RequestMethod.GET)
+	// Clientes/page?page=01&linesPerPage=20...
+	// Retorna todas Clientes com paginação //6
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<ClienteDTO>> findPage(
-			//@RequestParam -> parametro opcional
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="orderBy", defaultValue="nome") String orderBy, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+			// @RequestParam -> parametro opcional
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Cliente> list = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<ClienteDTO> listDto = list.map(obj -> new ClienteDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
-}
 
+	@RequestMapping(value = "/picture", method = RequestMethod.POST)
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
+		URI uri = service.uploadProfilePicture(file);
+		return ResponseEntity.created(uri).build();
+	}
+}
