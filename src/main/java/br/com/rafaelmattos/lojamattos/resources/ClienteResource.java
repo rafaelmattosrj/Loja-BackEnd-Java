@@ -41,6 +41,13 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
+	//Endpoint para buscar cliente por email
+	@RequestMapping(value="/email", method=RequestMethod.GET)
+	public ResponseEntity<Cliente> find(@RequestParam(value="value") String email) {
+		Cliente obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	// Insere categoria //2
 	@RequestMapping(method = RequestMethod.POST)
 	// @Valid para validação //@Request Body, ou corpo da requisição, é onde
