@@ -21,6 +21,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.rafaelmattos.lojamattos.domain.Categoria;
 import br.com.rafaelmattos.lojamattos.dto.CategoriaDTO;
 import br.com.rafaelmattos.lojamattos.services.CategoriaService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -30,6 +33,7 @@ public class CategoriaResource {
 	private CategoriaService service;
 
 	//Buscar no banco de dados com base no id //1
+	@ApiOperation(value="Busca por id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	// ResponseEntity -> Encapsula varias informações de uma resposta de HTTP para
 	// um serviço REST.
@@ -39,7 +43,7 @@ public class CategoriaResource {
 			return ResponseEntity.ok().body(obj);
 	}
 	
-
+	@ApiOperation(value="Insere categoria")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	//Insere categoria //2
 	@RequestMapping(method = RequestMethod.POST)
@@ -52,7 +56,7 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-
+	@ApiOperation(value="Atualiza categoria")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	//Atualiza categoria //3
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
@@ -63,7 +67,10 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 
-
+	@ApiOperation(value="Remove categoria")
+	@ApiResponses(value = {
+			@ApiResponse(code = 400, message = "Não é possível excluir uma categoria que possui produtos"),
+			@ApiResponse(code = 404, message = "Código inexistente") })
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	//Remove categoria //4
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
@@ -73,6 +80,7 @@ public class CategoriaResource {
 	}
 	
 	//Buscar uma lista de Categorias //5
+	@ApiOperation(value="Retorna todas categorias")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 			//converter Categoria em CategoriaDto
@@ -84,6 +92,7 @@ public class CategoriaResource {
 	//PASSO 1 - Busca paginada
 	//categorias/page?page=01&linesPerPage=20...
 	//Retorna todas categorias com paginação //6
+	@ApiOperation(value="Retorna todas categorias com paginação")
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			//@RequestParam -> parametro opcional

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.rafaelmattos.lojamattos.domain.Pedido;
 import br.com.rafaelmattos.lojamattos.services.PedidoService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/pedidos")
@@ -25,6 +26,7 @@ public class PedidoResource {
 	@Autowired // instanciar o serviço.
 	private PedidoService service;
 
+	@ApiOperation(value="Busca por id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	// ResponseEntity -> Encapsula varias informações de uma resposta de HTTP para
 	// um serviço REST.
@@ -35,6 +37,7 @@ public class PedidoResource {
 	}
 	
 	//Insere categoria //2
+	@ApiOperation(value="Insere pedido")
 	@RequestMapping(method = RequestMethod.POST)
 	//@Valid para validação //@Request Body, ou corpo da requisição, é onde geralmente enviamos dados que queremos gravar no servidor
 	public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) {
@@ -46,7 +49,7 @@ public class PedidoResource {
 	
 	//categorias/page?page=01&linesPerPage=20...
 	//1. [OUT] O sistema informa os nomes de todas categorias ordenadamente.
-	//@ApiOperation(value="Retorna todos pedidos com paginação")
+	@ApiOperation(value="Retorna todos pedidos com paginação")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<Page<Pedido>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 

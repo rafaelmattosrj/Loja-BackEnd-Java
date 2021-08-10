@@ -15,6 +15,7 @@ import br.com.rafaelmattos.lojamattos.domain.Produto;
 import br.com.rafaelmattos.lojamattos.dto.ProdutoDTO;
 import br.com.rafaelmattos.lojamattos.resources.utils.URL;
 import br.com.rafaelmattos.lojamattos.services.ProdutoService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/produtos")
@@ -23,6 +24,7 @@ public class ProdutoResource {
 	@Autowired // instanciar o serviço.
 	private ProdutoService service;
 
+	@ApiOperation(value="Busca por id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	// ResponseEntity -> Encapsula varias informações de uma resposta de HTTP para
 	// um serviço REST.
@@ -35,6 +37,7 @@ public class ProdutoResource {
 	//Busca paginada
 	//categorias/page?page=01&linesPerPage=20...
 	//Retorna todas categorias com paginação //6
+	@ApiOperation(value="Retorna todos produtos com paginação")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<Page<ProdutoDTO>> findPage(
 			//@RequestParam -> parametro opcional

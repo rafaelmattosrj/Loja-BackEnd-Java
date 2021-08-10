@@ -23,6 +23,7 @@ import br.com.rafaelmattos.lojamattos.domain.Cliente;
 import br.com.rafaelmattos.lojamattos.dto.ClienteDTO;
 import br.com.rafaelmattos.lojamattos.dto.ClienteNewDTO;
 import br.com.rafaelmattos.lojamattos.services.ClienteService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/clientes")
@@ -31,6 +32,7 @@ public class ClienteResource {
 	@Autowired // instanciar o serviço.
 	private ClienteService service;
 
+	@ApiOperation(value="Busca por id")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	// ResponseEntity -> Encapsula varias informações de uma resposta de HTTP para
 	// um serviço REST. Cliente retorna todas as informações. O DTO limita as
@@ -49,6 +51,7 @@ public class ClienteResource {
 	}
 	
 	// Insere categoria //2
+	@ApiOperation(value="Insere cliente")
 	@RequestMapping(method = RequestMethod.POST)
 	// @Valid para validação //@Request Body, ou corpo da requisição, é onde
 	// geralmente enviamos dados que queremos gravar no servidor
@@ -60,6 +63,7 @@ public class ClienteResource {
 	}
 
 	// Atualiza categoria //3
+	@ApiOperation(value="Atualiza cliente")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Cliente> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
 		Cliente obj = service.fromDTO(objDto);
@@ -68,6 +72,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@ApiOperation(value="Remove cliente")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	// Remove categoria //4
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -76,6 +81,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@ApiOperation(value="Retorna todas clientes")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	// Buscar uma lista de Clientes //5
 	@RequestMapping(method = RequestMethod.GET)
@@ -86,6 +92,7 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 
+	@ApiOperation(value="Retorna todas clientes com paginação")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	// Clientes/page?page=01&linesPerPage=20...
 	// Retorna todas Clientes com paginação //6
